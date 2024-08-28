@@ -7,6 +7,7 @@ import p5img from '../../assets/products/n5.jpg';
 import p6img from '../../assets/products/n6.jpg';
 import p7img from '../../assets/products/n7.jpg';
 import p8img from '../../assets/products/n8.jpg';
+import product2 from './Item2';
 
 const Product1 = () => {
   return (
@@ -16,7 +17,7 @@ const Product1 = () => {
         <p>Summer Collection New Morden Design</p>
         <div className="pro-container">
 
-            <div className="pro" onclick="window.location.href='sproduct.html';">
+            {/* <div className="pro" onclick="window.location.href='sproduct.html';">
                 <img src={p1img} alt="" />
                 <div className="des">
                     <span>adidas</span>
@@ -31,13 +32,14 @@ const Product1 = () => {
                     <h4>$78</h4>
                 </div>
                 <a href="#"><i className="fa-solid fa-cart-shopping"></i></a>
-            </div>
+            </div> */}
 
-            <div className="pro">
-                <img src={p2img} alt="" />
+            {product2.map((item) => (
+                <div className="pro">
+                <img src={item.image} alt="" />
                 <div className="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-shirts</h5>
+                    <span>{item.brand}</span>
+                    <h5>{item.title}</h5>
                     <div className="star">
                         <i className="fas fa-star"></i>
                         <i className="fas fa-star"></i>
@@ -45,13 +47,13 @@ const Product1 = () => {
                         <i className="fas fa-star"></i>
                         <i className="fas fa-star"></i>
                     </div>
-                    <h4>$78</h4>
+                    <h4>{item.price}</h4>
                 </div>
                 <a href="#"><i className="fa-solid fa-cart-shopping"></i></a>
-            </div>
+            </div>))}
 
             
-            <div className="pro">
+            {/* <div className="pro">
                 <img src={p3img} alt="" />
                 <div className="des">
                     <span>adidas</span>
@@ -151,7 +153,7 @@ const Product1 = () => {
                     <h4>$78</h4>
                 </div>
                 <a href="#"><i className="fa-solid fa-cart-shopping"></i></a>
-            </div>
+            </div> */}
 
         </div>
     </section>
