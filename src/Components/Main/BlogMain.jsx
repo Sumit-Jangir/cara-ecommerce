@@ -1,7 +1,6 @@
-import React from 'react'
-import Blog_banner from '../Blog/Blog_banner'
 import Newslatter from '../Home/Newslatter'
 import Blog from '../Blog/Blog'
+import Blog_banner from '../Blog/Blog_banner'
 
 const BlogMain = () => {
   return (
