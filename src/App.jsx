@@ -10,7 +10,7 @@ import Contact from "./Components/Main/Contact";
 import Cart from "./Components/Main/Cart";
 import S_product from "./Components/Main/S_product";
 import Login from "./Components/Login_SignUp/Login";
-import SignUp from "./Components/Login_SignUp/SignUP";
+import SignUp from "./Components/Login_SignUp/SignUp";
 import BlogMain from "./Components/Main/BlogMain.jsx";
 import ScrollToTop from "./ScrollToTop.jsx";
 
