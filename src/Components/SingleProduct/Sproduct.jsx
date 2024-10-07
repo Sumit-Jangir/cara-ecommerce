@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import img1 from "../../assets/products/f1.jpg";
-import img2 from "../../assets/products/f2.jpg";
-import img3 from "../../assets/products/f3.jpg";
-import img4 from "../../assets/products/f4.jpg";
 import { useParams } from "react-router-dom";
 import Item1 from "../Home/Item1";
 
 const Sproduct = () => {
   const { id } = useParams();
+  
   const [indeximage,setindeximage] = useState(0)
    const ourProduct = Item1.filter((item) => {
     return item.id == id;

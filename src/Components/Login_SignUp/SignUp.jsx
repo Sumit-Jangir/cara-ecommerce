@@ -42,7 +42,7 @@ function SignUp() {
     <div className="login">
       <div className="auth-container">
         <h2 style={{ textAlign: "center" }}>Sign Up</h2>
-        <form>
+        <form onSubmit={userData}>
           <input
             type="text"
             placeholder="Username"
@@ -71,7 +71,7 @@ function SignUp() {
             required
             onChange={getInputData}
           />
-          <button type="submit" onClick={userData}>
+          <button type="submit" >
             Sign Up
           </button>
         </form>
