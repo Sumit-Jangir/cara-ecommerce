@@ -9,6 +9,7 @@
     --bg-clr: #111b20;
     --bg-clr2: #1a2328;
     --color:#fff;
+    --color2:#7a808a;
     background-color: var(--bg-clr);
   }
   
@@ -23,13 +24,13 @@
     line-height: 64px;
   }
   h2 {
-    color: var(--color);
+    color: var(--color2);
     font-size: 46px;
     line-height: 64px;
   }
   
   h4 {
-    color: var(--color);
+    color: var(--color2);
     font-size: 20px;
   }
   
@@ -235,6 +236,32 @@
   }
   #feature .fe-box:nth-child(6) h6 {
     background-color: #fff2e5;
+  }
+
+  .filter{
+    padding: 5px;
+  }
+  .filter input{
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 2px solid;
+  }
+  .filter button{
+    padding: 5px;
+    margin: 0px 5px;
+    background-color: #088170;
+    color: #fff;
+  }
+  .filter{
+    padding: 5px;
+  }
+
+  #Rating{
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+
   }
   
   #product1 {
@@ -565,7 +592,7 @@
   
   #page-header h2,
   #page-header p {
-    color: var(--color);
+    color: #fff;
   }
   
   #pagination {
