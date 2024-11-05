@@ -4,24 +4,37 @@
     box-sizing: border-box;
     font-family: "spartan", sans-serif;
   }
+
+  .darkMode{
+    --bg-clr: #111b20;
+    --bg-clr2: #1a2328;
+    --color:#fff;
+    background-color: var(--bg-clr);
+  }
+  
+  .lightMode{
+    --bg-clr: #e3e6f3;
+    --color:#222;
+  }
   
   h1 {
+    color: var(--color);
     font-size: 50px;
     line-height: 64px;
-    color: #222;
   }
   h2 {
+    color: var(--color);
     font-size: 46px;
     line-height: 64px;
-    color: #222;
   }
   
   h4 {
+    color: var(--color);
     font-size: 20px;
-    color: #222;
   }
   
   h6 {
+    color: var(--color);
     font-weight: 700;
     font-size: 12px;
   }
@@ -32,7 +45,7 @@
     margin: 15px 0 20px 0;
   }
   i {
-    color: black;
+    color: var(--color);
   }
   
   .section-p1 {
@@ -46,7 +59,7 @@
     font-size: 14px;
     font-weight: 600;
     padding: 15px 30px;
-    color: #000;
+    color: black;
     background-color: #fff;
     border-radius: 4px;
     cursor: pointer;
@@ -59,7 +72,7 @@
     font-size: 13px;
     font-weight: 600;
     padding: 11px 18px;
-    color: #fff;
+    color: black;
     background-color: transparent;
     cursor: pointer;
     border: 1px solid #fff;
@@ -73,7 +86,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px 80px;
-    background-color: #e3e6f3;
+    background-color: var(--bg-clr);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
     z-index: 999;
     position: sticky;
@@ -106,7 +119,7 @@
     text-decoration: none;
     font-size: 16px;
     font-weight: 600;
-    color: #030303;
+    color: var(--color);
     transition: 0.3s ease;
   }
   
@@ -179,6 +192,7 @@
   }
   
   #feature .fe-box {
+    background-color: #fff;
     min-width: 150px;
     width: 14%;
     text-align: center;
@@ -268,7 +282,8 @@
   
   #product1 .pro .des h5 {
     padding-top: 7px;
-    color: #1a1a1a;
+    /* color: #1a1a1a; */
+    color: var(--color);
     font-size: 14px;
   }
   
@@ -472,6 +487,7 @@
   }
   
   footer {
+    background-color: var(--bg-clr2);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -489,18 +505,20 @@
   }
   
   footer h4 {
+    color: var(--color);
     padding-bottom: 20px;
   }
   
   footer p {
+    color: var(--color);
     font-size: 13px;
     margin: 0 0 8px 0;
   }
   
   footer a {
+    color: var(--color);
     font-size: 13px;
     text-decoration: none;
-    color: #222;
     margin-bottom: 10px;
   }
   
@@ -547,7 +565,7 @@
   
   #page-header h2,
   #page-header p {
-    color: #fff;
+    color: var(--color);
   }
   
   #pagination {
@@ -1002,7 +1020,7 @@
       right: -250px;
       height: 100vh;
       width: 250px;
-      background-color: #e3e6f3;
+      background-color: var(--bg-clr);
       box-shadow: 0 40px 0px rgba(0, 0, 0, 0.1);
       padding: 80px 0 0 10px;
       transition: 0.4s ease;
@@ -1282,7 +1300,7 @@
   /* ******************login page****************** */
 
   .login{
-    background-color: #e3e6f3;
+    background-color: var(--bg-clr);
     margin: 0;
     padding: 0;
     display: flex;

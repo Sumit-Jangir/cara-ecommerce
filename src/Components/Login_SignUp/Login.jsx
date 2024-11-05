@@ -21,7 +21,7 @@ function Login() {
 
     const updatedUsers = [...localData, userDetail];
 
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
+    // localStorage.setItem("users", JSON.stringify(updatedUsers));
 
     // alert('login successfull');
 

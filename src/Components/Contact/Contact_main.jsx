@@ -11,19 +11,19 @@ const Contact_main = () => {
             <div>
                 <li>
                     <i className="fa-solid fa-map-pin"></i>
-                    <p>56 Glassford Street Glasgow G1 1UL New York</p>
+                    <p>56 Glassford Street Glasgow G1 1UL </p>
                 </li>
                 <li>
                     <i className="fa-solid fa-envelope"></i>
-                    <p>tejasnasre120@gmail.com</p>
+                    <p>jangirsumit906@gmail.com</p>
                 </li>
                 <li>
                     <i className="fa-solid fa-phone"></i>
-                    <p>https://github.com/TejasNasre</p>
+                    <p>https://github.com/Sumit-Jangir</p>
                 </li>
                 <li>
                     <i className="fa-solid fa-clock"></i>
-                    <p>Monday to saturday: 9.00am to 16.00pm</p>
+                    <p>Monday to saturday: 9:00am to 8:00pm</p>
                 </li>
             </div>
         </div>
