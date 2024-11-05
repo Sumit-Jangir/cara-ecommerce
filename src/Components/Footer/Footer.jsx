@@ -17,11 +17,10 @@ const Footer = () => {
             <div className="follow">
                 <h4>Follow us</h4>
                 <div className="icon">
-                    <i className="fab fa-facebook-f"></i>
-                    <i className="fab fa-twitter"></i>
-                    <i className="fab fa-instagram"></i>
-                    <i className="fab fa-pinterest-p"></i>
-                    <i className="fab fa-youtube"></i>
+                    <a href="https://x.com/SumitJangir03"><i className="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/sumitjangiir/"><i className="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/sumit-jangir-056057253/"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://github.com/sumit-jangir/"><i class="fa-brands fa-github"></i></a>
                 </div>
             </div>
 

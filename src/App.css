@@ -240,6 +240,7 @@
 
   .filter{
     padding: 5px;
+    color: var(--color);
   }
   .filter input{
     padding: 5px;
@@ -550,9 +551,11 @@
   }
   
   footer .follow i {
-    color: #465b52;
-    padding-right: 4px;
+    color: var(--color2);
+    padding:0px 6px;
     cursor: pointer;
+    font-size: x-large;
+
   }
   footer .install .row img {
     border: 1px solid #088170;
