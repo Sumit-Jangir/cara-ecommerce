@@ -4,6 +4,7 @@ import logo from "../../assets/img/logo.png";
 
 const Header = () => {
   const [theme, setTheme] = useState("lightMode");
+  const [isNavbarActive, setIsNavbarActive] = useState(false);
 
   const handleTheme = () => {
     theme === "lightMode" ? setTheme("darkMode") : setTheme("lightMode");
@@ -13,6 +14,14 @@ const Header = () => {
     document.body.className = theme;
   }, [theme]);
 
+  const handleNavbar = () => {
+    setIsNavbarActive(!isNavbarActive);
+  };
+
+  const handleNavbarClose = () => {
+    setIsNavbarActive(!isNavbarActive);
+  };
+
   return (
     <>
       <section id="header">
@@ -21,7 +30,7 @@ const Header = () => {
         </Link>
 
         <div>
-          <ul id="navbar">
+          <ul id="navbar" className={isNavbarActive ? "active" : ""}>
             <li>
               {/* <a className="active" href="index.html">Home</a> */}
               <Link className="active nav-link" to={"/"}>
@@ -54,7 +63,12 @@ const Header = () => {
                 <i className="fa-solid fa-bag-shopping"></i>
               </Link>
             </li>
-            <a href="#" id="close">
+            <a
+              onClick={handleNavbarClose}
+              href="#"
+              id="close"
+              className={isNavbarActive ? "" : "active"}
+            >
               <i className="fa-solid fa-xmark"></i>
             </a>
             <li>
@@ -114,10 +128,12 @@ const Header = () => {
         </div>
 
         <div id="mobile">
-          <a href="cart.html">
+          <a>
             <i className="fa fa-shopping-bag" aria-hidden="true"></i>
           </a>
-          <i id="bar" className="fas fa-outdent"></i>
+          <div onClick={handleNavbar}>
+            <i id="bar" className="fas fa-outdent"></i>
+          </div>
         </div>
       </section>
     </>
