@@ -515,7 +515,7 @@
   }
   
   footer {
-    background-color: var(--bg-clr2);
+    background-color: var(--bg-clr);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -912,6 +912,7 @@
   /********************Cart page*************************/
   
   #cart {
+    color: var(--color);
     overflow-x: auto;
   }
   
@@ -988,6 +989,7 @@
   
   #coupon h3,
   #sub-total {
+    color: var(--color);
     padding-bottom: 15px;
   }
   
@@ -1055,11 +1057,23 @@
       padding: 80px 0 0 10px;
       transition: 0.4s ease;
     }
-    
+
     #navbar.active {
       right: 0px;
     }
   
+    #navbar li:nth-child(6) {
+      margin-bottom: 2px;
+  }
+
+    .theme{
+      display: none;
+    }
+
+    .signup-btn{
+      margin-left: 14px;
+    }
+
     #navbar li {
       margin-bottom: 25px;
     }
@@ -1070,7 +1084,7 @@
     }
   
     #mobile i {
-      color: #1a1a1a;
+      color: var(--color);
       font-size: 24px;
       padding-left: 20px;
     }
