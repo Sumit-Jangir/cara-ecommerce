@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Item1 from "../Home/Item1";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../Redux/Slice/CartSlice";
 
 const Sproduct = () => {
   const { id } = useParams();
@@ -10,13 +12,15 @@ const Sproduct = () => {
     return item.id == id;
   });
 
-  console.log(ourProduct,"Our Product")
+  // console.log(ourProduct,"Our Product")
 
    function imageArray(index){
 
     setindeximage(index)
                
    }
+
+   const dispatch = useDispatch();
 
 
   // console.log(ourProduct);
@@ -48,7 +52,7 @@ const Sproduct = () => {
           <div className="single-pro-details">
             <h6>{item.brand}</h6>
             <h4>{item.title}</h4>
-            <h2>{item.price}</h2>
+            <h2> &#8377; {item.price}</h2>
             <select>
               <option>Select Size</option>
               <option>XL</option>
@@ -57,7 +61,7 @@ const Sproduct = () => {
               <option>Large</option>
             </select>
             <input type="number" value="1" />
-            <button className="normal">Add To Cart</button>
+            <button className="normal" onClick={()=>dispatch(addToCart(item))}>Add To Cart</button>
             <h4>Product Details</h4>
             <span>
               The Gildan Ultra Cotton T-shirt is made from a substantial 6.8 oz.

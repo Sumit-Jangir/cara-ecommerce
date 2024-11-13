@@ -682,6 +682,10 @@
     color: #fff;
   }
   
+  #prodetails .single-pro-details button:active {
+    background: #0a2c29; /* Different color while button is pressed */
+  }
+  
   #prodetails .single-pro-details span {
     line-height: 25px;
   }
@@ -942,6 +946,11 @@
     text-align: center;
   }
   
+  #cart table td:nth-child(4) input{
+    width: 40px;
+    /* text-align: center; */
+  }
+
   #cart table td:nth-child(4),
   #cart table td:nth-child(5),
   #cart table td:nth-child(6) {

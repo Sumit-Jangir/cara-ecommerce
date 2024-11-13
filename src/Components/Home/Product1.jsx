@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import product1 from "./Item1";
 import { Link } from "react-router-dom";
+import { addToCart } from "../../Redux/Slice/CartSlice";
+import { useDispatch } from "react-redux";
 
 const Product1 = () => {
+
+  const dispatch = useDispatch();
+  
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   const [ratingVal, setRatingVal] = useState(0);
@@ -19,7 +24,6 @@ const Product1 = () => {
   //   // console.log(FirstPro);
   // }, []);
 
-
   const handleSearch = () => {
     const filtered = product1.filter((item) => {
       return (
@@ -31,10 +35,10 @@ const Product1 = () => {
     setSearchResults(filtered);
   };
 
-  const sorttest = ()=>{
+  const sorttest = () => {
     const ratingValue = ratingVal;
     const filterByRating = searchResults.filter(
-      (item)=> item.rating >= ratingValue
+      (item) => item.rating >= ratingValue
     );
 
     if (sort === "a") {
@@ -45,7 +49,7 @@ const Product1 = () => {
     }
 
     return filterByRating;
-  }
+  };
 
   return (
     <>
@@ -59,21 +63,27 @@ const Product1 = () => {
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search Items"
           />
-          <button className="login-btn" onClick={handleSearch}>Search</button>
-          <button className="login-btn" onClick={() => setSort("a")}>Low to high</button>
-      <button className="login-btn" onClick={() => setSort("b")}>High to low</button>
-      <label htmlFor="Rating">Rating:</label>
-      <select
-        name="Rating"
-        id="Rating"
-        onChange={(e) => setRatingVal(e.target.value)}
-      >
-        <option value="1">1 and above</option>
-        <option value="2">2 and above</option>
-        <option value="3">3 and above</option>
-        <option value="4">4 and above</option>
-        <option value="5">5</option>
-      </select>
+          <button className="login-btn" onClick={handleSearch}>
+            Search
+          </button>
+          <button className="login-btn" onClick={() => setSort("a")}>
+            Low to high
+          </button>
+          <button className="login-btn" onClick={() => setSort("b")}>
+            High to low
+          </button>
+          <label htmlFor="Rating">Rating:</label>
+          <select
+            name="Rating"
+            id="Rating"
+            onChange={(e) => setRatingVal(e.target.value)}
+          >
+            <option value="1">1 and above</option>
+            <option value="2">2 and above</option>
+            <option value="3">3 and above</option>
+            <option value="4">4 and above</option>
+            <option value="5">5</option>
+          </select>
         </div>
         <div className="pro-container">
           {/* <Link className="pro"  to={"Sproduct.html"} */}
@@ -84,6 +94,7 @@ const Product1 = () => {
               className="pro"
               to={`/sproduct/${item.id}`}
               style={{ textDecoration: "none" }}
+              key={item.id}
             >
               <img src={item.image[0]} alt="" />
               <div className="des">
@@ -91,13 +102,20 @@ const Product1 = () => {
                 <h5>{item.title}</h5>
                 <div className="star">
                   <i className="fas fa-star"></i>
-                  <span>  {item.rating}</span>
+                  <span> {item.rating}</span>
                 </div>
                 <h4>&#8377; {item.price}</h4>
               </div>
-              <a href="#">
+              <Link
+                href="#"
+                onClick={(e) => {
+                  // e.preventDefault();
+                  e.stopPropagation(); // Prevent the link from triggering navigation
+                  dispatch(addToCart(item));
+                }}
+              >
                 <i className="fa-solid fa-cart-shopping"></i>
-              </a>
+              </Link>
             </Link>
             // </div>
           ))}
