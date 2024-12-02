@@ -1,79 +1,89 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "../../App.css";
 
 function SignUp() {
-  
-  // const [localData, setLocalData] = useState([]);
-  const [storeData, setStoreData] = useState([]);
-  
-  const [userDetail, setUserDetail] = useState({
-    username: "",
-    email: "",
-    password: "",
-    conformPassword: "",
-  });
+  const [userDetail, setuserDetail] = useState({});
 
-  const [localData, setLocalData] = useState(
-    JSON.parse(localStorage.getItem("users")) || []
-  );
-
-
-  const userData = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:3000/auth/signup", {
+        ...userDetail,
+      });
 
-    const updatedUsers = [...localData, userDetail];
-
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-
-    setLocalData(updatedUsers);
-
-    const storedUsers = JSON.parse(localStorage.getItem("users"));
-
-    console.log(storedUsers);
+      console.log(response);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
-
-  const getInputData = ((e)=>{
-    const {name, value} = e.target;
-    setUserDetail({...userDetail,[name]:value})
-  })
 
   return (
     <div className="login">
       <div className="auth-container">
         <h2 style={{ textAlign: "center" }}>Sign Up</h2>
-        <form onSubmit={userData}>
-          <input
-            type="text"
-            placeholder="Username"
-            name="username"
-            required
-            onChange={getInputData}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            required
-            onChange={getInputData}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            required
-            onChange={getInputData}
-          />
-          <input
-            type="password"
-            placeholder="Conform Password"
-            name="conformPassword"
-            required
-            onChange={getInputData}
-          />
-          <button type="submit" >
-            Sign Up
-          </button>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Name:
+            <input
+              type="text"
+              placeholder="Enter name"
+              required
+              onChange={(e) =>
+                setuserDetail({
+                  ...userDetail,
+                  name: e.target.value,
+                })
+              }
+            />
+          </label>
+          <label>
+            Email:
+            <input
+              type="email"
+              placeholder="Enter email"
+              name="email"
+              required
+              onChange={(e) =>
+                setuserDetail({
+                  ...userDetail,
+                  email: e.target.value,
+                })
+              }
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              type="password"
+              placeholder="Enter password"
+              name="password"
+              required
+              onChange={(e) =>
+                setuserDetail({
+                  ...userDetail,
+                  password: e.target.value,
+                })
+              }
+            />
+          </label>
+          <label>
+            Conform Password:
+            <input
+              type="password"
+              placeholder="Conform Password"
+              name="conformPassword"
+              required
+              onChange={(e) =>
+                setuserDetail({
+                  ...userDetail,
+                  conformPassword: e.target.value,
+                })
+              }
+            />
+          </label>
+          <button type="submit">Sign Up</button>
         </form>
         <p>
           Already have an account?
