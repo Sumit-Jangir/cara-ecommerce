@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { clearToken, setToken } from "../../Redux/Slice/CartSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.cart.token);
+
   const [theme, setTheme] = useState("lightMode");
   const [isNavbarActive, setIsNavbarActive] = useState(false);
+  // const [isLogin, setIsLogin] = useState(localStorage.getItem("token") || null);
+  const [isLogin, setIsLogin] = useState(token);
   const location = useLocation();
+
 
   const handleTheme = () => {
     theme === "lightMode" ? setTheme("darkMode") : setTheme("lightMode");
@@ -15,13 +23,23 @@ const Header = () => {
     document.body.className = theme;
   }, [theme]);
 
-  const handleNavbar = () => {
-    setIsNavbarActive(!isNavbarActive);
+  const handleNavbarClose = () => {
+    if (window.innerWidth < 799) setIsNavbarActive(!isNavbarActive);
   };
 
-  const handleNavbarClose = () => {
-    setIsNavbarActive(!isNavbarActive);
+  const handleLogout = () => {
+    dispatch(clearToken());
+    setIsLogin(token);
   };
+
+  // useEffect(() => {
+  //   setIsLogin(localStorage.getItem("token"));
+  //   // console.log("jjjjjjj")
+  // });
+  useEffect(() => {
+    setIsLogin(token);
+    // console.log("jjjjjjj")
+  });
 
   return (
     <>
@@ -34,7 +52,8 @@ const Header = () => {
           <ul id="navbar" className={isNavbarActive ? "active" : ""}>
             <li>
               {/* <a className="active" href="index.html">Home</a> */}
-              <Link onClick={handleNavbarClose}
+              <Link
+                onClick={handleNavbarClose}
                 className={`${
                   location.pathname === "/" ? "active" : ""
                 } nav-link`}
@@ -44,7 +63,8 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link onClick={handleNavbarClose}
+              <Link
+                onClick={handleNavbarClose}
                 className={`${
                   location.pathname === "/shop/" ? "active" : ""
                 } nav-link`}
@@ -55,7 +75,8 @@ const Header = () => {
               {/* <a href="shop.html">Shop</a> */}
             </li>
             <li>
-              <Link onClick={handleNavbarClose}
+              <Link
+                onClick={handleNavbarClose}
                 className={`${
                   location.pathname === "/Blog/" ? "active" : ""
                 } nav-link`}
@@ -65,7 +86,8 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link onClick={handleNavbarClose}
+              <Link
+                onClick={handleNavbarClose}
                 className={`${
                   location.pathname === "/about/" ? "active" : ""
                 } nav-link`}
@@ -75,7 +97,8 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link onClick={handleNavbarClose}
+              <Link
+                onClick={handleNavbarClose}
                 className={`${
                   location.pathname === "/contact/" ? "active" : ""
                 } nav-link`}
@@ -85,7 +108,8 @@ const Header = () => {
               </Link>
             </li>
             <li className="lg-bag ">
-              <Link onClick={handleNavbarClose}
+              <Link
+                onClick={handleNavbarClose}
                 className={`${
                   location.pathname === "/cart/" ? "active" : ""
                 } nav-link`}
@@ -145,22 +169,37 @@ const Header = () => {
                 )}
               </Link>
             </li>
-            <li>
-              <Link className="login-btn" to={"/login/"}>
-                Login
-              </Link>
-            </li>
-            <li style={{ padding: "0px" }}>
-              <Link className="login-btn signup-btn" to={"/signup/"}>
-                SignUp
-              </Link>
-            </li>
+
+            {isLogin ? (
+              <li style={{ padding: "0px" }}>
+                <Link
+                  className="login-btn signup-btn"
+                  to={"/"}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Link>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <Link className="login-btn" to={"/login/"}>
+                    Login
+                  </Link>
+                </li>
+                <li style={{ padding: "0px" }}>
+                  <Link className="login-btn signup-btn" to={"/signup/"}>
+                    SignUp
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
 
-          {isNavbarActive && (
-            <div onClick={handleNavbarClose} className="navbar-outer-div"></div>
-          )}
+        {isNavbarActive && (
+          <div onClick={handleNavbarClose} className="navbar-outer-div"></div>
+        )}
 
         <div id="mobile">
           <Link className="nav-link" onClick={handleTheme}>
@@ -208,7 +247,7 @@ const Header = () => {
           {/* <Link className="nav-link" to={"/cart/"}>
                 <i className="fa-solid fa-bag-shopping"></i>
               </Link> */}
-          <div onClick={handleNavbar}>
+          <div onClick={handleNavbarClose}>
             <i id="bar" className="fas fa-outdent"></i>
           </div>
         </div>

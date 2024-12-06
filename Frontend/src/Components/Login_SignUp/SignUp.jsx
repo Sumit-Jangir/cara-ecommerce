@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../App.css";
+import toast from "react-hot-toast";
 
 function SignUp() {
   const [userDetail, setuserDetail] = useState({});
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,9 +16,16 @@ function SignUp() {
         ...userDetail,
       });
 
+      if(response.status === 200){
+        toast.success('SignUp Successfully!, Please Login')
+        setuserDetail({})
+        navigate('/login')
+      }
+
       console.log(response);
     } catch (error) {
       console.log("error", error);
+      toast.error(error.response.data.message || "Please try again.")
     }
   };
 
@@ -29,7 +39,7 @@ function SignUp() {
             <input
               type="text"
               placeholder="Enter name"
-              required
+              // required
               onChange={(e) =>
                 setuserDetail({
                   ...userDetail,
@@ -44,7 +54,7 @@ function SignUp() {
               type="email"
               placeholder="Enter email"
               name="email"
-              required
+              // required
               onChange={(e) =>
                 setuserDetail({
                   ...userDetail,
@@ -59,7 +69,7 @@ function SignUp() {
               type="password"
               placeholder="Enter password"
               name="password"
-              required
+              // required
               onChange={(e) =>
                 setuserDetail({
                   ...userDetail,
@@ -74,7 +84,7 @@ function SignUp() {
               type="password"
               placeholder="Conform Password"
               name="conformPassword"
-              required
+              // required
               onChange={(e) =>
                 setuserDetail({
                   ...userDetail,
@@ -87,7 +97,7 @@ function SignUp() {
         </form>
         <p>
           Already have an account?
-          <Link to="/login">Login</Link>
+          <Link to="/login"> Login</Link>
         </p>
       </div>
     </div>
