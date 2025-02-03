@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
-import authRoute from './Router/authRoute.js';
+import userRoute from './Routes/userRoute.js'
 import cors from 'cors'
 
 dotenv.config()
@@ -13,7 +13,7 @@ const MONGOURL = process.env.MONGOURL
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use('/auth',authRoute)
+app.use('/auth',userRoute)
 
 
 mongoose.connect(MONGOURL)
