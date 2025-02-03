@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 function SignUp() {
   const [userDetail, setuserDetail] = useState({});
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,16 +16,16 @@ function SignUp() {
         ...userDetail,
       });
 
-      if(response.status === 200){
-        toast.success('SignUp Successfully!, Please Login')
-        setuserDetail({})
-        navigate('/login')
+      if (response.status === 200) {
+        toast.success("SignUp Successfully!, Please Login");
+        setuserDetail({});
+        navigate("/login");
       }
 
       console.log(response);
     } catch (error) {
       console.log("error", error);
-      toast.error(error.response.data.message || "Please try again.")
+      toast.error(error.response.data.message || "Please try again.");
     }
   };
 
@@ -92,6 +92,22 @@ function SignUp() {
                 })
               }
             />
+          </label>
+          <label>
+            Select role:
+            <select
+              name="role"
+              className="w-full p-2 my-2 border rounded "
+              onChange={(e) =>
+                setuserDetail({
+                  ...userDetail,
+                  role: e.target.value,
+                })
+              }
+            >
+              <option value="buyer">Buyer</option>
+              <option value="seller">Seller</option>
+            </select>
           </label>
           <button type="submit">Sign Up</button>
         </form>

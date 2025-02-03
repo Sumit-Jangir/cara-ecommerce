@@ -5,6 +5,8 @@ import { toast } from "react-hot-toast";
 import "../../App.css";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../Redux/Slice/CartSlice";
+import { jwtDecode } from "jwt-decode";
+import { getUser } from "../../Redux/Slice/GetUserSlice";
 
 function Login() {
   const [userDetail, setUserDetail] = useState({});
@@ -21,13 +23,24 @@ function Login() {
       });
 
       // console.log(response)
+      // if (response.status === 200) {
+      //   toast.success("Login Successfully!");
+      //   setUserDetail({});
+      //   dispatch(setToken(response.data.token));
+      //   // localStorage.setItem("token", response.data.token)
+      //   navigate("/");
+      // }
+
       if (response.status === 200) {
         toast.success("Login Successfully!");
         setUserDetail({});
-        dispatch(setToken(response.data.token));
-        // localStorage.setItem("token", response.data.token)
-        navigate("/");
+        const token = response.data.token;
+        dispatch(setToken(token)); 
+        const decoded = jwtDecode(token); 
+        dispatch(getUser(decoded.id)); 
+        navigate("/"); 
       }
+
     } catch (error) {
       console.log("error", error);
       console.log("response.data.message", error.response.data.message);
