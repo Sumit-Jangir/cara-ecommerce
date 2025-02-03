@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema(
     conformPassword: {
       type: String,
     },
+    role:{
+      type:String,
+      default:"buyer"
+    }
   },
   { versionKey: false, timestamps: true }
 );
