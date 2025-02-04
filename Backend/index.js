@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import userRoute from './Routes/userRoute.js'
+import productRoute from './Routes/ProductRoute.js'
 import cors from 'cors'
 
 dotenv.config()
@@ -14,6 +15,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use('/auth',userRoute)
+app.use('/product',productRoute)
 
 
 mongoose.connect(MONGOURL)
