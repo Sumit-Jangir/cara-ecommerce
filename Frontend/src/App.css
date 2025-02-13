@@ -1,8 +1,12 @@
 * {
-  padding: 0;
-  margin: 0;
+  /* padding: 0;
+  margin: 0; */
   box-sizing: border-box;
   font-family: "spartan", sans-serif;
+}
+
+:root{
+  margin-bottom: 0px;
 }
 
 .darkMode {
@@ -27,6 +31,7 @@ h2 {
   color: var(--color2);
   font-size: 46px;
   line-height: 64px;
+  font-weight: 600
 }
 
 h4 {
@@ -89,7 +94,7 @@ button.white {
   padding: 20px 80px;
   background-color: var(--bg-clr);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
-  z-index: 999;
+  z-index: 50;
   position: sticky;
   left: 0;
   top: 0;
@@ -313,7 +318,7 @@ button.white {
   font-size: 14px;
 }
 
-#product1 .pro .des i {
+#product1 .pro .des i,.i {
   font-size: 12px;
   color: rgb(243, 181, 25);
 }
@@ -384,7 +389,7 @@ button.white {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  background-image: url("assets/banner/b17.jpg");
+  background-image: url("https://plus.unsplash.com/premium_photo-1667520166318-8cc851e2d51c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzd8fG1ha2UlMjBpbiUyMGluZGlhfGVufDB8fDB8fHww");
   min-width: 48%;
   height: 50vh;
   background-size: cover;
@@ -516,6 +521,7 @@ footer {
   background-color: var(--bg-clr);
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: -17px;
   justify-content: space-between;
 }
 

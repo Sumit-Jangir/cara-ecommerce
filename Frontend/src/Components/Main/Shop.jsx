@@ -10,7 +10,7 @@ const Shop = () => {
     <Shop_banner />
     <Product1 />
     {/* <Product2 /> */}
-    <Newslatter />
+    {/* <Newslatter /> */}
     </>
   )
 }

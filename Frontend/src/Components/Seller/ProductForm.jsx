@@ -12,9 +12,11 @@ const ProductForm = ({
     image: null,
     title: "",
     brand: "",
+    category: "",
     description: "",
     rating: "",
     price: "",
+    quantity: "", // ✅ Added quantity field
   });
 
   useEffect(() => {
@@ -26,6 +28,7 @@ const ProductForm = ({
         description: product.description,
         rating: product.rating,
         price: product.price,
+        quantity: product.quantity, // ✅ Prefill quantity in edit mode
       });
     }
   }, [product]);
@@ -34,12 +37,12 @@ const ProductForm = ({
     const { name, value, type, files } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "file" ? files[0] : value, // Correct file handling
+      [name]: type === "file" ? files[0] : value,
     });
   };
 
   const UserIdDecoded = jwtDecode(localStorage.getItem("token"));
-  console.log("UserIdDecoded:", UserIdDecoded.id);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -51,19 +54,14 @@ const ProductForm = ({
       data.append("description", formData.description);
       data.append("rating", formData.rating);
       data.append("price", formData.price);
+      data.append("quantity", formData.quantity); // ✅ Include quantity
 
       if (product) {
-
-        console.log("data",formData);
-        
         const response = await axios.patch(
           `${import.meta.env.VITE_API_KEY}/product/edit/${product._id}`,
-          formData,
-        //   { headers: { "Content-Type": "multipart/form-data" } }
+          formData
         );
 
-        console.log("Response:", response.data);
-        
         if (response.status === 200) {
           setIsEditProductOpen(false);
           handleGetProducts();
@@ -93,11 +91,11 @@ const ProductForm = ({
           className="bg-gray-200 shadow-lg rounded-lg p-6 w-96"
         >
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-3xl font-semibold text-center">{product ?"Edit Product":"Add Product"}</h3>
+            <h3 className="text-3xl font-semibold text-center">
+              {product ? "Edit Product" : "Add Product"}
+            </h3>
             <button
-              onClick={() => (
-                setIsAddProductOpen(false), setIsEditProductOpen(false)
-              )}
+              onClick={() => (setIsAddProductOpen(false), setIsEditProductOpen(false))}
               className="text-xl text-gray-700 font-semibold"
             >
               X
@@ -105,19 +103,18 @@ const ProductForm = ({
           </div>
 
           {!product && (
-              
-              <label className="block text-gray-700 font-bold mb-1">
-            Upload Image
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg mb-3"
-              required
+            <label className="block text-gray-700 font-bold mb-1">
+              Upload Image
+              <input
+                type="file"
+                name="image"
+                accept="image/*"
+                onChange={handleChange}
+                className="w-full px-3 py-2 border rounded-lg mb-3"
+                required
               />
-          </label>
-            )}
+            </label>
+          )}
 
           <label className="block text-gray-700 font-bold mb-1">
             Title
@@ -137,7 +134,7 @@ const ProductForm = ({
               type="text"
               name="brand"
               value={formData.brand}
-              onChange={handleChange} // ✅ Fix brand update
+              onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg mb-3"
               required
             />
@@ -176,6 +173,19 @@ const ProductForm = ({
               name="price"
               value={formData.price}
               onChange={handleChange}
+              className="w-full px-3 py-2 border rounded-lg mb-3"
+              required
+            />
+          </label>
+
+          <label className="block text-gray-700 font-bold mb-1">
+            Quantity
+            <input
+              type="number"
+              name="quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+              min="0"
               className="w-full px-3 py-2 border rounded-lg mb-3"
               required
             />

@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from "react";
-import product1 from "./Item1";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { addToCart } from "../../Redux/Slice/CartSlice";
 import { useDispatch } from "react-redux";
 
 const Product1 = () => {
-
   const dispatch = useDispatch();
-  
+
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
   const [ratingVal, setRatingVal] = useState(0);
-  const [searchResults, setSearchResults] = useState(product1);
+  const [product, setProduct] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
 
-  // const [featurPro, setFeturePro] = useState([]);
+  const getAllProduct = async () => {
+    try {
+      console.log("getallproduct");
 
-  // const FirstPro = product1.filter((item) => {
-  //   return item.category == "featured_product";
-  // });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_KEY}/product/`
+      );
 
-  // useEffect(() => {
-  //   setFeturePro(FirstPro);
-  //   // console.log(FirstPro);
-  // }, []);
+      console.log("response", response.data);
+      setSearchResults(response.data);
+      setProduct(response.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  useEffect(() => {
+    getAllProduct();
+  }, []);
 
   const handleSearch = () => {
-    const filtered = product1.filter((item) => {
+    const filtered = product.filter((item) => {
       return (
         item.title?.toLowerCase().includes(search?.toLowerCase() || "") ||
         item.description?.toLowerCase().includes(search?.toLowerCase() || "") ||
@@ -86,17 +95,15 @@ const Product1 = () => {
           </select>
         </div>
         <div className="pro-container">
-          {/* <Link className="pro"  to={"Sproduct.html"} */}
-
           {sorttest().map((item) => (
-            // <div className="pro">
             <Link
+              onClick={() => console.log("item", item)}
               className="pro"
-              to={`/sproduct/${item.id}`}
+              to={`/sproduct/${item._id}`}
               style={{ textDecoration: "none" }}
-              key={item.id}
+              key={item._id}
             >
-              <img src={item.image[0]} alt="" />
+              <img className="h-[250px]" src={item.image} alt="" />
               <div className="des">
                 <span>{item.brand}</span>
                 <h5>{item.title}</h5>
@@ -105,19 +112,29 @@ const Product1 = () => {
                   <span> {item.rating}</span>
                 </div>
                 <h4>&#8377; {item.price}</h4>
+                {/* ✅ Fixed: Add only one item when clicking the cart icon */}
               </div>
+              {/* <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation(); // Prevents navigation
+                  dispatch(addToCart({ ...item, quantity: 1 })); // ✅ Always adds only 1
+                }}
+                className="cart-btn"
+              >
+                <i className="fa-solid fa-cart-shopping"></i>
+              </button> */}
               <Link
                 href="#"
                 onClick={(e) => {
                   // e.preventDefault();
                   e.stopPropagation(); // Prevent the link from triggering navigation
-                  dispatch(addToCart(item));
+                  dispatch(addToCart({ ...item, quantity: 1 }));
                 }}
               >
                 <i className="fa-solid fa-cart-shopping"></i>
               </Link>
             </Link>
-            // </div>
           ))}
         </div>
       </section>

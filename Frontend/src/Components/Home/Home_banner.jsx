@@ -5,9 +5,9 @@ const Home_banner = () => {
     <>
     <section id="sm-banner" className="section-p1">
         <div className="banner-box">
-            <h4>crazy deals</h4>
-            <h3>buy 1 get 1 free</h3>
-            <span>The best classic dress is on sale at cara</span>
+            {/* <h4>crazy deals</h4> */}
+            <h3>Make in India</h3>
+            <span>The best classic dress is on sale.</span>
             <button className="white">Learn More</button>
         </div>
 

@@ -32,19 +32,19 @@ const Product = () => {
     handleGetProducts();
   }, []);
 
-
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`${import.meta.env.VITE_API_KEY}/product/delete/${id}`);
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_KEY}/product/delete/${id}`
+      );
       if (response.status === 200) {
         handleGetProducts();
         toast.success("Product deleted successfully");
       }
     } catch (error) {
       console.error("Error:", error);
-      
     }
-  }
+  };
 
   return (
     <>
@@ -83,13 +83,24 @@ const Product = () => {
                   <span> {product.rating}</span>
                 </div>
                 <h5 className="text-teal-700">&#8377; {product.price}</h5>
-
+                <h5 className="text-gray-700">
+                  Quantity: {product.quantity}
+                </h5>{" "}
+                {/* ✅ Display quantity */}
                 <div className="mt-2 space-x-3">
-                  <button onClick={()=>(setProductId(product._id),setIsEditProductOpen(true))} className="border px-3 py-1 rounded bg-[#121b30] hover:bg-[#0f142a] cursor-pointer text-white">
+                  <button
+                    onClick={() => (
+                      setProductId(product._id), setIsEditProductOpen(true)
+                    )}
+                    className="border px-3 py-1 rounded bg-[#121b30] hover:bg-[#0f142a] cursor-pointer text-white"
+                  >
                     Edit
                   </button>
-                  <button onClick={()=>handleDelete(product._id)} className="border px-3 py-1 rounded bg-red-500 hover:bg-red-600 cursor-pointer text-white">
-                    delete
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="border px-3 py-1 rounded bg-red-500 hover:bg-red-600 cursor-pointer text-white"
+                  >
+                    Delete
                   </button>
                 </div>
               </div>
@@ -102,11 +113,8 @@ const Product = () => {
                   product={product}
                 />
               )}
-
             </div>
             // </div>
-
-
           ))}
         </div>
 

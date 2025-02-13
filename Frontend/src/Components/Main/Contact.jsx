@@ -8,7 +8,7 @@ const Contact = () => {
     <>
       <Contact_banner />
       <Contact_main />
-      <Newslatter />
+      {/* <Newslatter /> */}
     </>
   );
 };

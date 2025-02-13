@@ -25,7 +25,7 @@ const Product1 = () => {
               to={`/sproduct/${item.id}`}
               style={{ textDecoration: "none" }}
             >
-              <img src={item.image[0]} alt="" />
+              <img src={item.image} alt="" />
               <div className="des">
                 <span>{item.brand}</span>
                 <h5>{item.title}</h5>

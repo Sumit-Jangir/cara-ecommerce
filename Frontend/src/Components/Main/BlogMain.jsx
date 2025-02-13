@@ -7,7 +7,7 @@ const BlogMain = () => {
     <>
     <Blog_banner />
       <Blog />
-      <Newslatter />
+      {/* <Newslatter /> */}
     </>
   )
 }
