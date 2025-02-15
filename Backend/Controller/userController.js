@@ -1,16 +1,16 @@
 import userModel from "../Model/userModel.js";
 import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 dotenv.config();
 
-const secretKey = process.env.secretKey
+const secretKey = process.env.secretKey;
 
 export const signUp = async (req, res) => {
   try {
-    const { name, email, password, conformPassword ,role} = req.body;
+    const { name, email, password, conformPassword, role } = req.body;
 
-    if (!(name && email && password && conformPassword )) {
+    if (!(name && email && password && conformPassword)) {
       return res.status(404).json({ message: "All field are require" });
     }
 
@@ -23,7 +23,7 @@ export const signUp = async (req, res) => {
     }
 
     console.log("<<<<<role>>>>>", role);
-    
+
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
 
@@ -31,7 +31,7 @@ export const signUp = async (req, res) => {
       name,
       email,
       password: hash,
-      role
+      role,
     };
 
     user = new userModel(data);
@@ -42,13 +42,14 @@ export const signUp = async (req, res) => {
   }
 };
 
-
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: "Email not found! Please signup" });
+      return res
+        .status(400)
+        .json({ message: "Email not found! Please signup" });
     }
     const dbPassword = user.password;
 
@@ -59,11 +60,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "invalid password" });
     }
 
-    const token = jwt.sign(
-      { id: user._id },
-      secretKey,
-      {expiresIn:"10d"}
-    );
+    const token = jwt.sign({ id: user._id }, secretKey, { expiresIn: "10d" });
 
     console.log("<<<<<token>>>>>>", token);
 
@@ -75,8 +72,8 @@ export const login = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-const {id} = req.params;
-    const user = await userModel.findOne({ _id:id });
+    const { id } = req.params;
+    const user = await userModel.findOne({ _id: id });
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }

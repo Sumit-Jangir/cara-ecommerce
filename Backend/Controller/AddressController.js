@@ -32,3 +32,25 @@ export const getAddress = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 }
+
+
+// ✅ Delete Address API
+export const deleteAddress = async (req, res) => {
+    try {
+        const { addressId } = req.params;
+
+        // 🛑 Check if address exists
+        const address = await AddressModel.findById(addressId);
+        if (!address) {
+            return res.status(404).json({ message: "Address not found!" });
+        }
+
+        // ✅ Delete the address
+        await AddressModel.findByIdAndDelete(addressId);
+        res.status(200).json({ message: "Address deleted successfully!" });
+
+    } catch (error) {
+        console.error("Error deleting address:", error);
+        res.status(500).json({ message: "Something went wrong!", error: error.message });
+    }
+};

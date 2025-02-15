@@ -14,7 +14,7 @@ export const getCartItems = async (req, res) => {
 
 export const addToCart = async (req, res) => {
   try {
-    let { _id, quantity, price,image,title } = req.body;
+    let { _id, quantity, price, image, title } = req.body;
 
     console.log("Adding item to cart:", req.body);
 
@@ -26,26 +26,32 @@ export const addToCart = async (req, res) => {
 
     let existingCartItem = await CartModel.findOne({
       userId: req.user.id,
-      productId:_id,
+      productId: _id,
     });
 
     if (existingCartItem) {
       existingCartItem.quantity += quantity;
       await existingCartItem.save();
-      return res.json(existingCartItem);
+
+      // ✅ Return updated cart array instead of single object
+      const updatedCart = await CartModel.find({ userId: req.user.id }).populate(
+        "productId",
+        "name price image"
+      );
+      return res.json(updatedCart);
     }
 
     const newCartItem = new CartModel({
       userId: req.user.id,
-      productId:_id,
+      productId: _id,
       quantity,
       price,
       productImage: image,
-      productName:title,
+      productName: title,
     });
     await newCartItem.save();
 
-    // Return updated cart
+    // ✅ Return updated cart (always array)
     const updatedCart = await CartModel.find({ userId: req.user.id }).populate(
       "productId",
       "name price image"
@@ -56,6 +62,7 @@ export const addToCart = async (req, res) => {
     res.status(500).json({ message: "Error adding item to cart" });
   }
 };
+
 
 export const removeFromCart = async (req, res) => {
   try {
@@ -70,4 +77,15 @@ export const removeFromCart = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error removing item from cart" });
   }
+};
+
+export const clearCart = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        await CartModel.deleteMany({ userId });
+        res.status(200).json({ message: "Cart cleared successfully!" });
+    } catch (error) {
+        console.error("Error clearing cart:", error);
+        res.status(500).json({ message: "Something went wrong!", error: error.message });
+    }
 };
