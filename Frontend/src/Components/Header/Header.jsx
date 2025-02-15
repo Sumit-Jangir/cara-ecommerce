@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import { useDispatch, useSelector } from "react-redux";
-import { clearToken, setToken } from "../../Redux/Slice/CartSlice";
+import {
+  clearToken,
+  fetchCartItems,
+  setToken,
+} from "../../Redux/Slice/CartSlice";
 import useGetUserId from "../../CustomHooks/useGetUserId";
 import { getUser } from "../../Redux/Slice/GetUserSlice";
 
@@ -11,7 +15,20 @@ const Header = () => {
   const token = useSelector((state) => state.cart.token);
   const { userId } = useGetUserId();
 
-  // Fetch user info when userId is available or token changes
+  const cart = useSelector((state) => state.cart?.cart || []);
+
+  // ✅ `useState` ki jagah Redux se directly length use kar rahe hain
+  const [cartCount, setCartCount] = useState(cart.length);
+
+  useEffect(() => {
+    dispatch(fetchCartItems()); // ✅ Cart data fetch on mount
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("Updated cart:", cart); // ✅ Debugging: Check Redux cart data
+    setCartCount(cart.length); // ✅ Ensure UI updates with latest cart length
+  }, [cart]);
+
   useEffect(() => {
     if (userId) {
       dispatch(getUser(userId));
@@ -31,6 +48,10 @@ const Header = () => {
   useEffect(() => {
     document.body.className = theme;
   }, [theme]);
+
+  const handleNavbar = () => {
+    setIsNavbarActive(!isNavbarActive);
+  };
 
   const handleNavbarClose = () => {
     if (window.innerWidth < 799) setIsNavbarActive(!isNavbarActive);
@@ -127,18 +148,35 @@ const Header = () => {
           )}
 
           {/* Cart and Logout */}
-          <li className="lg-bag">
+          <li className="relative lg-bag ">
             <Link
               onClick={handleNavbarClose}
-              className={`${
-                location.pathname === "/cart/" ? "active" : ""
+              className={`relative ${
+                location.pathname === "/cart/" ? "text-green-600  " : ""
               } nav-link`}
               to={"/cart/"}
             >
-              <i className="fa-solid fa-bag-shopping"></i>
+              {/* ✅ Cart Count (Only show if cart has items) */}
+              {cartCount > 0 && (
+                <span className="absolute -top-3 -right-2 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">
+                  {cartCount}
+                </span>
+              )}
+              <i className={`fa-regular fa-cart-shopping relative ${
+                location.pathname === "/cart/" ? "active  " : ""
+              } nav-link`} ></i>{" "}
             </Link>
           </li>
 
+          <a
+              onClick={handleNavbarClose}
+              href="#"
+              id="close"
+              className={isNavbarActive ? "" : "active"}
+            >
+              <i className="fa-solid fa-xmark"></i>
+            </a>
+            
           {/* Theme switch and logout */}
           <li>
             <Link className="nav-link theme" onClick={handleTheme}>
@@ -193,7 +231,7 @@ const Header = () => {
                 onClick={handleLogout}
               >
                 Logout
-              </Link>
+              </Link> 
             </li>
           ) : (
             <>
@@ -211,6 +249,52 @@ const Header = () => {
           )}
         </ul>
       </div>
+      <div id="mobile">
+          <Link  onClick={handleTheme}>
+          {theme === "lightMode" ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-moon"
+                >
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-sun-moon text-white"
+                >
+                  <path d="M12 8a2.83 2.83 0 0 0 4 4 4 4 0 1 1-4-4" />
+                  <path d="M12 2v2" />
+                  <path d="M12 20v2" />
+                  <path d="m4.9 4.9 1.4 1.4" />
+                  <path d="m17.7 17.7 1.4 1.4" />
+                  <path d="M2 12h2" />
+                  <path d="M20 12h2" />
+                  <path d="m6.3 17.7-1.4 1.4" />
+                  <path d="m19.1 4.9-1.4 1.4" />
+                </svg>
+              )}
+          </Link>
+          <div onClick={handleNavbar}>
+            <i id="bar" className="fas fa-outdent"></i>
+          </div>
+        </div>
     </section>
   );
 };

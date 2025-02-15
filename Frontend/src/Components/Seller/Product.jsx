@@ -4,12 +4,16 @@ import ProductForm from "./ProductForm";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
+import Button from "../UI/Button";
 
 const Product = () => {
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [productId, setProductId] = useState("");
   const [isEditProductOpen, setIsEditProductOpen] = useState(false);
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [isProductOpen, setIsProductOpen] = useState(true);
+  const [orders, setOrders] = useState([]);
 
   const UserIdDecoded = jwtDecode(localStorage.getItem("token"));
 
@@ -27,6 +31,22 @@ const Product = () => {
       console.error("Error:", error);
     }
   };
+
+  const handleGetOrders = async () => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_KEY}/order/seller/${UserIdDecoded.id}`
+      );
+
+      if (response.status === 200) {
+        setOrders(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  
 
   useEffect(() => {
     handleGetProducts();
@@ -49,15 +69,31 @@ const Product = () => {
   return (
     <>
       <div className=" min-h-[100vh]">
-        <div className="text-end m-4">
+        <div className="flex justify-between m-4">
+          <div>
+          <Button
+            onClick={() => (setIsProductOpen(true), setIsOrderOpen(false))}
+          className="ml-20"
+          >
+            Product
+          </Button>
+          <Button
+          onClick={() => (setIsOrderOpen(true), setIsProductOpen(false),handleGetOrders())}
+            className="ml-6"
+          >
+            Order
+          </Button>
+          </div>
           <button
             onClick={() => setIsAddProductOpen(true)}
-            className="text-end text-white mx-10 p-2 rounded bg-[#088178] hover:bg-[#088179bd] "
+            className="text-white mx-10 p-2 rounded bg-[#088178] hover:bg-[#088179bd] "
           >
             Add New Product
           </button>
         </div>
 
+
+        {isProductOpen && (
         <div className="mx-20 my-10 flex flex-wrap justify-evenly">
           {products.map((product) => (
             <div
@@ -117,6 +153,66 @@ const Product = () => {
             // </div>
           ))}
         </div>
+        )}
+
+{isOrderOpen && (
+          <div className="mx-20 my-10">
+            <h2 className="text-2xl font-bold mb-4">Your Orders</h2>
+            {orders.length === 0 ? (
+              <p className="text-center text-gray-500">No orders found.</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {orders.map((order) => (
+                  <div
+                    key={order._id}
+                    className="border p-4 rounded-lg shadow-md bg-gray-50"
+                  >
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-semibold text-lg">Order ID: {order._id}</h3>
+                      <span
+                        className={`px-3 py-1 text-sm rounded-lg ${
+                          order.status === "pending"
+                            ? "bg-yellow-300"
+                            : "bg-green-400"
+                        }`}
+                      >
+                        {order.status}
+                      </span>
+                    </div>
+                    <p className="mt-2">
+                      <strong>Total:</strong> ₹{order.totalAmount}
+                    </p>
+
+                    <h4 className="text-md font-semibold mt-3">Items:</h4>
+                    <ul className="text-sm space-y-1">
+                      {order.items.map((item, index) => (
+                        <li key={index} className="border-b py-1">
+                          <p>
+                            🔹 <strong>Product:</strong> {item.title}
+                          </p>
+                          <p>
+                            📦 <strong>Qty:</strong> {item.quantity} | 💰{" "}
+                            <strong>₹{item.price}</strong>
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <h4 className="text-md font-semibold mt-3">Shipping:</h4>
+                    <p className="text-sm">
+                      {order.address.address}, {order.address.city},{" "}
+                      {order.address.pincode}
+                    </p>
+                    <p className="text-sm">📞 {order.address.phone}</p>
+                    {order.address.notes && (
+                      <p className="text-sm">📝 {order.address.notes}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {isAddProductOpen && (
           <ProductForm

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCartItems, removeFromCart } from "../../Redux/Slice/CartSlice";
+import { clearCartAPI, fetchCartItems, removeFromCart } from "../../Redux/Slice/CartSlice";
 import Address from "./Address";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -60,10 +60,11 @@ const Cart_main = () => {
       return;
     }
 
+
     const orderData = {
       buyerId: userId,
       items: cart?.map((item) => ({
-        productId: item._id,
+        productId: item.productId,
         title: item.productName,
         quantity: item.quantity || 1,
         price: item.price,
@@ -79,6 +80,7 @@ const Cart_main = () => {
       );
       if (response.status === 201) {
         toast.success("Order placed successfully!");
+        dispatch(clearCartAPI(userId));
         fetchOrders();
       }
     } catch (error) {

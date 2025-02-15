@@ -30,7 +30,7 @@ function App() {
   const { userId } = useGetUser();
   const location = useLocation(); // Get the current route
 
-  console.log("location", location.pathname);
+  // console.log("location", location.pathname);
   
   const useAuth = () => {
     const token = localStorage.getItem("token");

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const API_URL = `${import.meta.env.VITE_API_KEY}/cart`;
 
@@ -11,7 +12,6 @@ const initialState = {
     error: null
 };
 
-// Async thunks for API calls
 export const fetchCartItems = createAsyncThunk("cart/fetchCartItems", async (_, { rejectWithValue }) => {
     try {
         const response = await axios.get(API_URL, {
@@ -45,6 +45,17 @@ export const removeFromCart = createAsyncThunk("cart/removeCartItem", async (id,
     }
 });
 
+export const clearCartAPI = createAsyncThunk("cart/clearCart", async (userId, { rejectWithValue }) => {
+    try {
+        await axios.delete(`${API_URL}/clear/${userId}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+        });
+        return [];
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || "Failed to clear cart");
+    }
+});
+
 const cartSlice = createSlice({
     name: "cart",
     initialState,
@@ -75,10 +86,16 @@ const cartSlice = createSlice({
             .addCase(addToCart.fulfilled, (state, action) => {
                 state.cart = action.payload;
                 state.quantity = action.payload.length;
+                toast.success("Item added to cart");
             })
             .addCase(removeFromCart.fulfilled, (state, action) => {
                 state.cart = action.payload;
                 state.quantity = action.payload.length;
+                toast.success("Item removed from cart");
+            })
+            .addCase(clearCartAPI.fulfilled, (state) => {
+                state.cart = [];
+                state.quantity = 0;
             });
     }
 });
