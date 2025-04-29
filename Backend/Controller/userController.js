@@ -1,4 +1,4 @@
-import userModel from "../Model/userModel.js";
+import User from "../Model/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -17,7 +17,7 @@ export const signUp = async (req, res) => {
     if (password != conformPassword) {
       return res.status(404).json({ message: "Incoreect Password" });
     }
-    let user = await userModel.findOne({ email });
+    let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ message: "Email already exists" });
     }
@@ -34,7 +34,7 @@ export const signUp = async (req, res) => {
       role,
     };
 
-    user = new userModel(data);
+    user = new User(data);
     await user.save();
     res.status(200).json(user);
   } catch (error) {
@@ -45,7 +45,7 @@ export const signUp = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
@@ -73,7 +73,7 @@ export const login = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await userModel.findOne({ _id: id });
+    const user = await User.findOne({ _id: id });
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
@@ -83,3 +83,67 @@ export const getUser = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// Get all users
+export const getAllUsers = async (req, res) => {
+  try {
+    console.log('Fetching all users...');
+    const users = await User.find({})
+      .select('-password -conformPassword')
+      .lean();
+    
+    console.log(`Found ${users.length} users`);
+    res.json(users);
+  } catch (error) {
+    console.error('Error in getAllUsers:', error);
+    res.status(500).json({ 
+      message: 'Error fetching users',
+      error: error.message 
+    });
+  }
+};
+
+// Block/Unblock user
+export const blockUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { isBlocked } = req.body;
+
+    console.log(`Attempting to ${isBlocked ? 'block' : 'unblock'} user ${userId}`);
+
+    const user = await User.findById(userId);
+    if (!user) {
+      console.log(`User not found: ${userId}`);
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Don't allow blocking admins
+    if (user.role === 'admin') {
+      console.log(`Attempted to block admin user: ${userId}`);
+      return res.status(403).json({ message: 'Cannot block admin users' });
+    }
+
+    user.isBlocked = isBlocked;
+    await user.save();
+
+    console.log(`Successfully ${isBlocked ? 'blocked' : 'unblocked'} user ${userId}`);
+    res.json({ 
+      message: `User ${isBlocked ? 'blocked' : 'unblocked'} successfully`,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isBlocked: user.isBlocked
+      }
+    });
+  } catch (error) {
+    console.error('Error in blockUser:', error);
+    res.status(500).json({ 
+      message: 'Error updating user status',
+      error: error.message 
+    });
+  }
+};
+
+

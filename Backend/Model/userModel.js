@@ -16,10 +16,19 @@ const userSchema = new mongoose.Schema(
     conformPassword: {
       type: String,
     },
-    role:{
-      type:String,
-      default:"buyer"
-    }
+    role: {
+      type: String,
+      enum: ['buyer', 'seller', 'admin'],
+      default: "buyer"
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false
+    },
+    products: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product'
+    }]
   },
   { versionKey: false, timestamps: true }
 );

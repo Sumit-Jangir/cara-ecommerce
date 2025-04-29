@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +12,7 @@ import { getUser } from "../../Redux/Slice/GetUserSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = useSelector((state) => state.cart.token);
   const { userId } = useGetUserId();
 
@@ -65,6 +66,9 @@ const Header = () => {
   // Set login state when token changes
   useEffect(() => {
     setIsLogin(token);
+    if(userInfo?.user?.role === "admin"){
+      localStorage.setItem("isAdmin", "true");
+    }
   }, [token]);
 
   return (
@@ -132,8 +136,8 @@ const Header = () => {
             </Link>
           </li>
 
-          {/* Show Dashboard link if the user is a seller */}
-          {userInfo?.user?.role === "seller" && (
+          {/* Show Dashboard link based on role */}
+          {userInfo?.user?.role === "seller" && !userInfo?.user?.isBlocked && (
             <li>
               <Link
                 onClick={handleNavbarClose}
@@ -142,7 +146,21 @@ const Header = () => {
                 } nav-link`}
                 to={"/sellerDashBoard"}
               >
-                DashBoard
+                Seller Dashboard
+              </Link>
+            </li>
+          )}
+
+          {userInfo?.user?.role === "admin" && (
+            <li>
+              <Link
+                onClick={handleNavbarClose}
+                className={`${
+                  location.pathname === "/admin" ? "active" : ""
+                } nav-link`}
+                to={"/admin"}
+              >
+                Admin Dashboard
               </Link>
             </li>
           )}
@@ -236,12 +254,12 @@ const Header = () => {
           ) : (
             <>
               <li>
-                <Link className="login-btn" to={"/login/"}>
+                <Link className="login-btn" to={"/login"}>
                   Login
                 </Link>
               </li>
               <li style={{ padding: "0px" }}>
-                <Link className="login-btn signup-btn" to={"/signup/"}>
+                <Link className="login-btn signup-btn" to={"/signup"}>
                   SignUp
                 </Link>
               </li>

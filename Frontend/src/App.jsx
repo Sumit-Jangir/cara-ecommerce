@@ -24,6 +24,7 @@ import { useState } from "react";
 import useGetUser from "./CustomHooks/useGetUserId.jsx";
 import Product from "./Components/Seller/Product.jsx";
 import OrderDetails from "./Components/Cart/OrderDetails.jsx";
+import AdminDashboard from "./Components/Admin/AdminDashboard";
 
 function App() {
   const [userDetails, setUserDetails] = useState(localStorage.getItem("token"));
@@ -37,33 +38,53 @@ function App() {
     return token;
   };
 
+  const useAdminAuth = () => {
+    const token = localStorage.getItem("token");
+    const isAdmin = localStorage.getItem("isAdmin");
+    return token && isAdmin;
+  };
+
   const ProtectedRoutes = () => {
     const isAuth = useAuth();
     return isAuth ? <Outlet /> : <Navigate to="/login" />;
   };
 
+  const AdminRoutes = () => {
+    const isAdmin = useAdminAuth();
+    return isAdmin ? <Outlet /> : <Navigate to="/" />;
+  };
+
   return (
     <>
       <ScrollToTop />
-      <Header />
+      {location.pathname !== "/login" && location.pathname !== "/signup" && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/blog" element={<BlogMain />} />
         <Route path="/about" element={<About />} />
+        
+        {/* Protected Routes */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="sproduct/:id/" element={<S_product />} />
           <Route path="/sellerDashBoard" element={<Product />} />
         </Route>
+
+        {/* Admin Routes */}
+        <Route element={<AdminRoutes />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Route>
+
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/order/:orderId" element={<OrderDetails />} />
       </Routes>
 
-      {/* Hide Footer on Product Page */}
-      {location.pathname !== "/sellerDashBoard" && <Footer />}
+      {/* Hide Footer on Product and Admin Pages */}
+      {location.pathname !== "/sellerDashBoard" && 
+       location.pathname !== "/admin" && location.pathname !== "/login" && location.pathname !== "/signup" && <Footer />}
     </>
   );
 }
