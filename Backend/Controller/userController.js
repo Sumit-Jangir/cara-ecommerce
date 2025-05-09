@@ -51,6 +51,9 @@ export const login = async (req, res) => {
         .status(400)
         .json({ message: "Email not found! Please signup" });
     }
+    if (user.isBlocked) {
+      return res.status(403).json({ message: "Your account has been blocked. Please contact support." });
+    }
     const dbPassword = user.password;
 
     const matchData = await bcrypt.compare(password, dbPassword);

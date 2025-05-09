@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../../assets/img/logo.png";
+import logo from "../../assets/img/new.jpg";
+// import logo from "../../assets/img/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearToken,
@@ -74,7 +75,7 @@ const Header = () => {
   return (
     <section id="header">
       <Link to={"/"}>
-        <img src={logo} alt="Logo" />
+        <img className="w-12 h-12" src={logo} alt="Logo" />
       </Link>
 
       <div>

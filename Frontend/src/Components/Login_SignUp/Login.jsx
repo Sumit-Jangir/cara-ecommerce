@@ -43,8 +43,11 @@ function Login() {
 
     } catch (error) {
       console.log("error", error);
-      console.log("response.data.message", error.response.data.message);
-      toast.error(error.response.data.message || "Please try again.");
+      if (error.response && error.response.status === 403) {
+        toast.error(error.response.data.message || "Your account has been blocked. Please contact support.");
+      } else {
+        toast.error(error.response.data.message || "Please try again.");
+      }
     }
   };
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import logo from '../../assets/img/logo.png';
+// import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/new.jpg';
 import Appimg from '../../assets/pay/app.jpg';
 import Playimg from '../../assets/pay/play.jpg';
 import Payimg from '../../assets/pay/pay.png';
@@ -9,7 +10,7 @@ const Footer = () => {
    <>
    <footer className="section-p1">
         <div className="col">
-            <img className="logo" src={logo} alt="" />
+            <img className="logo w-12 h-12" src={logo} alt="" />
             <h4>Contact</h4>
             <p><strong>Address: </strong> 562 Wellington Road, Street 32, San Francisco</p>
             <p><strong>Phone:</strong> +01 2222 365 /(+491) 01 2345 6789</p>
