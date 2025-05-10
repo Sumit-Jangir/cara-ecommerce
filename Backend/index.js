@@ -8,7 +8,7 @@ import addressRoute from './Routes/AddressRoute.js';
 import orderRoute from './Routes/OrderRoute.js';
 import cartRoute from './Routes/CartRoutes.js';
 import userRoute from './Routes/userRoute.js';
-import ServerlessHttp from 'serverless-http';
+import serverless from 'serverless-http';
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/admin', adminRoute);
+app.use('/api/admin',adminRoute);
 app.use('/auth', userRoute);
 app.use('/product', productRoute);
 app.use('/address', addressRoute);
@@ -33,8 +33,8 @@ mongoose.connect(process.env.MONGOURL)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
+export const handler = serverless(app);
 
-  export const handler = ServerlessHttp(app);
 // Start server
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
