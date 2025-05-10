@@ -8,6 +8,7 @@ import addressRoute from './Routes/AddressRoute.js';
 import orderRoute from './Routes/OrderRoute.js';
 import cartRoute from './Routes/CartRoutes.js';
 import userRoute from './Routes/userRoute.js';
+import ServerlessHttp from 'serverless-http';
 
 dotenv.config();
 
@@ -33,7 +34,7 @@ mongoose.connect(process.env.MONGOURL)
   .catch((err) => console.error('MongoDB connection error:', err));
 
 
-  export const handler = serverless(app);
+  export const handler = ServerlessHttp(app);
 // Start server
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
