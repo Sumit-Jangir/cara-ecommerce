@@ -28,6 +28,11 @@ app.use('/address', addressRoute);
 app.use('/order', orderRoute);
 app.use('/cart', cartRoute);
 
+// Test route
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from serverless backend!' });
+});
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGOURL)
   .then(() => console.log('Connected to MongoDB'))
